@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+    <script src="https://unpkg.com/vue@3.0.11/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="./stylesheet.css">
+    <title>Woodpellet Store</title>
+</head>
+
+<body style="background-color: White">
+    <h1>WoodPellet Store</h1>
+    <a href="https://restwoodpellets2.azurewebsites.net/woodpellets" target="_blank">
+        <button class="button2">API</button>
+    </a>
+    <div id="app">
+        <h2>All WoodPellets</h2>
+        <h3>List</h3>
+        <ul v-if="woodpellets">
+            <li v-for="wp in woodpellets">
+                Id: {{ wp.id }} Brand: {{wp.brand}} Price: {{wp.price}} Quality: {{ wp.quality}}
+            </li>
+        </ul>
+        <div v-else>No Woodpellets</div>
+
+        <h3>Table</h3>
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Brand</th>
+                        <th>Price</th>
+                        <th>Quality</th>
+                    </tr>
+                </thead>
+                <tr v-for="wp in woodpellets">
+                    <td>{{ wp.id }}</td>
+                    <td>{{ wp.brand }}</td>
+                    <td>{{ wp.price }}</td>
+                    <td>{{ wp.quality }}</td>
+                </tr>
+            </table>   
+        </div>
+
+        <h2>WoodPellet by id</h2>
+        <input v-model="woodpelletId" placeholder="id" type="number" id="idInput">
+        <button v-on:click="getWoodPelletById(woodpelletId)" id="getById" class="btn btn-primary">Get WoodPellet</button>
+        <div v-if="singlewoodpellet" id="foundId"> {{ singlewoodpellet }}</div>
+        <div v-else>No such WoodPellet</div>
+
+        <h2>Add WoodPellet</h2>
+        <input v-model="addData.Id" placeholder="id" type="text" />
+        <input v-model="addData.Brand" placeholder="brand" type="text" />
+        <input v-model="addData.Price" placeholder="price (1-999)" type="text" />
+        <input v-model="addData.Quality" placeholder="quality(1-5)" type="text" />
+        <button v-on:click="addWoodPellet()" class="btn btn-success">Add</button>
+        <div>{{addMessage}}</div>
+
+        <h2>Delete WoodPellet</h2>
+        <input v-model="idToDelete" placeholder="id" type="number">
+        <button v-on:click="deleteWoodPelletById(idToDelete)" class="btn btn-warning">Delete WoodPellet</button>
+        <div>{{deleteMessage}}</div>
+
+        <h2>Update WoodPellet</h2>
+        <input v-model.number="idToUpdate" placeholder="id to update" type="number" />
+        <input v-model="updateData.Id" placeholder="new id" type="text" />
+        <input v-model="updateData.Brand" placeholder="new brand" type="text" />
+        <input v-model="updateData.Price" placeholder="new price" type="text" />
+        <input v-model="updateData.Quality" placeholder="new quality" type="text" />
+        <button v-on:click="updateWoodPellet(idToUpdate)" class="btn btn-success">Update</button>
+        <div>{{updateMessage}}</div>
+
+    </div>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
